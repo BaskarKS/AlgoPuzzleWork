@@ -530,6 +530,7 @@ public class AlgoExpert {
         binarySearchTree.insert(5).insert(15).insert(5).insert(2).insert(14).insert(22);
         binarySearchTree.contains(5);
     }
+    //Time Complexity = O(2^n) //Space Complexity - O(n)
     public static int getNthFib(int n) {
         // Write your code here.
         if (n < 0)
@@ -540,6 +541,7 @@ public class AlgoExpert {
             return 0;
         return getNthFib(n-1) + getNthFib(n-2);
     }
+    //Time Complexity = O(n) //Space Complexity - O(1)
     public static int getNthFibIterative(int n) {
         int result = 0, prev = 1, lastPrev = 0, index = 2;
         while (index <= n) {
