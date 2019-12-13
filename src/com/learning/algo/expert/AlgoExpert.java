@@ -598,6 +598,47 @@ public class AlgoExpert {
                     + getNthFibRecursive(n - 2, fibCache));
         return fibCache.get(n);
     }
+    //Time Complexity : O(n Log n) //Space Complexity : O(n)
+    public static int[] mergeSort(int[] array) {
+        // Write your code here.
+        if (array == null || array.length < 2)
+            return array;
+        int start = 0, end = array.length;
+        mergeSortDivide(array,start, end);
+        return array;
+    }
+    public static void mergeSortDivide(int[] array, int start, int end) {
+        if ((end - start) < 2)
+            return;
+
+        int mid = (start + end) / 2;
+        mergeSortDivide(array, start, mid);
+        mergeSortDivide(array, mid, end);
+        mergeSortConquer(array, start, mid, end);
+    }
+    public static void mergeSortConquer(int[] array, int start, int mid, int end) {
+        if (array[mid] > array[mid - 1])
+            return;
+        int[] temp = new int[end - start];
+        int leftIndex = start;
+        int rightIndex = mid;
+        int tempIndex = 0;
+        while (leftIndex < mid && rightIndex < end) {
+            if (array[leftIndex] <= array[rightIndex])
+                temp[tempIndex++] = array[leftIndex++];
+            else
+                temp[tempIndex++] = array[rightIndex++];
+        }
+        while(leftIndex < mid)
+            temp[tempIndex++] = array[leftIndex++];
+        while(rightIndex < end)
+            temp[tempIndex++] = array[rightIndex++];
+        tempIndex = 0;
+        while(tempIndex < temp.length) {
+            array[start + tempIndex] = temp[tempIndex];
+            tempIndex++;
+        }
+    }
 }
 
 

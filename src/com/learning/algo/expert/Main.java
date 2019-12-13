@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Main {
@@ -22,5 +23,10 @@ public class Main {
         int newFibInput = 5;
         int fibResultOne = AlgoExpert.getNthFibDynamicProg(newFibInput, fibCache);
         System.out.println("Fib Dynamic : " + newFibInput +" : " + fibResultOne);
+
+        int[] array = {5, 2, 6, 1, 2, -3, 4};
+        System.out.println(Arrays.toString(array));
+        AlgoExpert.mergeSort(array);
+        System.out.println(Arrays.toString(array));
     }
 }
