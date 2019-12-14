@@ -598,6 +598,7 @@ public class AlgoExpert {
                     + getNthFibRecursive(n - 2, fibCache));
         return fibCache.get(n);
     }
+// ----------------------------- Merge Sort ---------------------------------//
     //Time Complexity : O(n Log n) //Space Complexity : O(n)
     public static int[] mergeSort(int[] array) {
         // Write your code here.
@@ -639,6 +640,81 @@ public class AlgoExpert {
             tempIndex++;
         }
     }
+    // Different Implementation of MergeSort
+    public void sort(int[] array) {
+        if (array.length < 2)
+            return;
+        var middle = array.length / 2;
+
+        int[] left = new int[middle];
+        for (var i = 0; i < middle; i++)
+            left[i] = array[i];
+
+        int[] right = new int[array.length - middle];
+        for (var i = middle; i < array.length; i++)
+            right[i - middle] = array[i];
+
+        sort(left);
+        sort(right);
+
+        merge(left, right, array);
+    }
+
+    private void merge(int[] left, int[] right, int[] result) {
+        int i = 0, j = 0, k = 0;
+
+        while (i < left.length && j < right.length) {
+            if (left[i] <= right[j])
+                result[k++] = left[i++];
+            else
+                result[k++] = right[j++];
+        }
+
+        while (i < left.length)
+            result[k++] = left[i++];
+
+        while (j < right.length)
+            result[k++] = right[j++];
+    }
+    //AlgoExpert Inplace Algorithm - Time Complexity O(n log n) - Space Complexity - O(n)
+    public static int[] mergeSortInPlace(int[] array) {
+        int[] auxiliary = Arrays.copyOf(array, array.length);
+        mergeSortHelper(array, 0, array.length - 1, auxiliary);
+        return array;
+    }
+    public static void mergeSortHelper(int[] main, int start, int end, int[] auxiliary) {
+        if (start == end)
+            return;
+        int mid = (start + end) / 2;
+        mergeSortHelper(auxiliary, start, mid, main);
+        mergeSortHelper(auxiliary, mid + 1, end, main);
+        mergeSortHelperMerge(main, start, mid, end, auxiliary);
+    }
+    public static void mergeSortHelperMerge(int[] main, int start, int mid,
+                                                int end, int[] auxiliary) {
+        int index = start, leftIndex = start, rightIndex = mid + 1;
+        while(leftIndex <= mid && rightIndex <= end) {
+            if (auxiliary[leftIndex] <= auxiliary[rightIndex]) {
+                main[index] = auxiliary[leftIndex];
+                leftIndex++;
+            } else {
+                main[index] = auxiliary[rightIndex];
+                rightIndex++;
+            }
+            index++;
+        }
+        while (leftIndex <= mid) {
+            main[index] = auxiliary[leftIndex];
+            index++;
+            leftIndex++;
+        }
+        while(rightIndex <= end) {
+            main[index] = auxiliary[rightIndex];
+            index++;
+            rightIndex++;
+        }
+    }
+// ----------------------------- Merge Sort ---------------------------------//
 }
 
 

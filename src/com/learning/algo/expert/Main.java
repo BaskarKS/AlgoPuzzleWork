@@ -26,7 +26,8 @@ public class Main {
 
         int[] array = {5, 2, 6, 1, 2, -3, 4};
         System.out.println(Arrays.toString(array));
-        AlgoExpert.mergeSort(array);
+        //AlgoExpert.mergeSort(array);
+        AlgoExpert.mergeSortInPlace(array);
         System.out.println(Arrays.toString(array));
     }
 }
