@@ -30,5 +30,10 @@ public class Main {
         //AlgoExpert.mergeSortInPlace(array);
         int[] sortedArray = AlgoExpert.mergeSortAlgoExpFirstApproach(array);
         System.out.println(Arrays.toString(sortedArray));
+
+        int[] twoNumberSum = {3, 5, -4, 8, 11, 1, -1, 6};
+        int targetSum = 10;
+        int[] result = AlgoExpert.twoNumberSumBestSpace(twoNumberSum, targetSum);
+        System.out.println(Arrays.toString(result));
     }
 }
