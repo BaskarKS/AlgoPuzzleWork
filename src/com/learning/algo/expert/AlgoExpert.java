@@ -766,7 +766,7 @@ public class AlgoExpert {
     // TimeComplexity : O(n ^ 2) - SpaceComplexity : O(1)
     public static int[] twoNumberSum(int[] array, int targetSum) {
         // Write your code here.
-        for (int eachNo = 0; eachNo < array.length; eachNo++) {
+        for (int eachNo = 0; eachNo < array.length - 1; eachNo++) {
             int firstNumber = array[eachNo];
             for(int otherNumber = eachNo + 1; otherNumber < array.length; otherNumber++) {
                 int secondNumber = array[otherNumber];
