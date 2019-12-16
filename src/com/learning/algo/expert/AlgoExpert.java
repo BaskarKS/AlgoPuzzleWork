@@ -714,7 +714,54 @@ public class AlgoExpert {
             rightIndex++;
         }
     }
+
+    public static int[] mergeSortAlgoExpFirstApproach(int[] array) {
+        if (array.length == 1)
+            return array;
+        int mid = array.length / 2;
+        int index = 0;
+        int[] left = new int[mid];
+        while (index < mid) {
+            left[index] = array[index];
+            index++;
+        }
+        int rightLength = array.length - mid;
+        int[] right = new int[rightLength];
+        index = 0;
+        while(index < rightLength) {
+            right[index] = array[mid + index];
+            index++;
+        }
+        return merge(mergeSortAlgoExpFirstApproach(left),
+                mergeSortAlgoExpFirstApproach(right));
+    }
+    public static int[] merge(int[] left, int[] right) {
+        int[] merged = new int[left.length + right.length];
+        int index = 0, leftIdx = 0, rightIdx = 0;
+        while(leftIdx < left.length && rightIdx < right.length) {
+            if (left[leftIdx] <= right[rightIdx]) {
+                merged[index] = left[leftIdx];
+                leftIdx++;
+            } else {
+                merged[index] = right[rightIdx];
+                rightIdx++;
+            }
+            index++;
+        }
+        while (leftIdx < left.length) {
+            merged[index] = left[leftIdx];
+            leftIdx++;
+            index++;
+        }
+        while (rightIdx < right.length) {
+            merged[index] = right[rightIdx];
+            rightIdx++;
+            index++;
+        }
+        return merged;
+    }
 // ----------------------------- Merge Sort ---------------------------------//
+    
 }
 
 
