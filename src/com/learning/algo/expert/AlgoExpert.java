@@ -931,9 +931,10 @@ public class AlgoExpert {
     }
 
     // Different Implementation
-    //Time Complexity : O(wh) //Space Complexity : O(wh)
-    //h is matrix height, w is matrix width
+    //Time Complexity : O(wh) or O(n) //Space Complexity : O(wh)
+    //h is matrix height, w is matrix width , n is the total items in matrix
     public static List<Integer> riverSizesBetter(int[][] matrix) {
+        //Initialization
         List<Integer> riverSizes = new ArrayList<>();
         boolean[][] visited = new boolean[matrix.length][];
         int index = 0;
@@ -941,7 +942,7 @@ public class AlgoExpert {
             visited[index] = new boolean[matrix[index].length];
             index++;
         }
-
+        //Visiting each element
         for (int row = 0; row < matrix.length; row++) {
             for (int col = 0; col < matrix[row].length; col++) {
                 if (visited[row][col])
@@ -956,16 +957,21 @@ public class AlgoExpert {
     public static int traverseGetRiverSize(int row,int col,int[][] matrix, boolean[][] visited) {
         int riverSize = 0;
         List<Integer[]> traverse = new ArrayList<>();
+
+        //Visiting requested node and neighbouring nodes and find possibility of river
         traverse.add(new Integer[]{row, col});
         while(!traverse.isEmpty()) {
             Integer[] current = traverse.remove(traverse.size() - 1);
             int currentValue = matrix[current[0]][current[1]];
+            //if already visited just skip it
             if (visited[current[0]][current[1]])
                continue;
             visited[current[0]][current[1]] = true;
+            //if the node is not a river, just skip it
             if (currentValue == 0) {
                 continue;
             }
+            //possibility of river, add its neighbours to investigate the river size
             riverSize++;
             List<Integer[]> neighbours = new ArrayList<>();
             getUnvisitedNeighbours(current[0], current[1], matrix, visited, neighbours);
@@ -974,16 +980,22 @@ public class AlgoExpert {
         }
         return riverSize;
     }
+
     public static List<Integer[]> getUnvisitedNeighbours(int row, int col,
                                                          int[][] matrix,
                                                          boolean[][] visited,
                                                          List<Integer[]> neighbours) {
+        //get the unvisited neighbours
+        //Top neighbour
         if (row > 0 && !visited[row - 1][col])
            neighbours.add(new Integer[]{row - 1, col});
+        //bottom neighbour
         if (row < matrix.length - 1 && !visited[row + 1][col])
            neighbours.add(new Integer[]{row + 1, col});
+        //left neighbour
         if (col > 0 && !visited[row][col - 1])
             neighbours.add(new Integer[]{row, col - 1});
+        //right neighbour
         if (col < matrix[row].length - 1 && !visited[row][col + 1])
             neighbours.add(new Integer[]{row, col + 1});
         return neighbours;
