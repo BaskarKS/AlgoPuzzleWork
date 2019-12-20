@@ -1,6 +1,7 @@
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
@@ -46,5 +47,12 @@ public class Main {
         System.out.println(Arrays.deepToString(matrix));
         List<Integer> riverSize = AlgoExpert.riverSizesBetter(matrix);
         System.out.println(riverSize);
+
+
+        int lruSize = 2;
+        Cache.LRUCache lru = new Cache.LRUCache(lruSize);
+        lru.insertKeyValuePair("a", 0);
+        lru.insertKeyValuePair("b", 1);
     }
+
 }
