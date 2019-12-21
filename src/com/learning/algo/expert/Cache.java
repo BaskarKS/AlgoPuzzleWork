@@ -35,7 +35,7 @@ public class Cache {
             this.value = value;
         }
     }
-    
+
     static class lruCache {
         Map<String, LinkList.Node> map = null;
         LinkList list = null;
