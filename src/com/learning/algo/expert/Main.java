@@ -53,6 +53,13 @@ public class Main {
         Cache.LRUCache lru = new Cache.LRUCache(lruSize);
         lru.insertKeyValuePair("a", 0);
         lru.insertKeyValuePair("b", 1);
+
+         //int[] kadaneArray = {3,5,-9,1,3,-2,3,4,7,2,-9,6,3,1,-5,4};
+         //int[] kadaneArray = {-1,-2,-3,-4,-5,-6,-7,-8,-9,-10};
+         //int[] kadaneArray = {-10,-2,-9,-4,-8,-6,-7,-1,-3,-5};
+         int[] kadaneArray = {1,2,-4,3,5,-9,8,1,2};
+        int kadaneSum = MediumProblems.kadanesAlgorithmDynamicProg(kadaneArray);
+        System.out.println("Kadane Sum : " + kadaneSum);
     }
 
 }
