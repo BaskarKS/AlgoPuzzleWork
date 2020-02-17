@@ -14,5 +14,9 @@ public class Main {
         String firstNonRepeat = "abcbad";
         System.out.println(FirstNonRepeatingCharacter.
                 firstNonRepeatingCharSolThree(firstNonRepeat));
+
+        int[] array = {1, 2, 3, 4, 4, 6, 7, 8};
+        int duplicate = FirstDuplicateInteger.firstDuplicateSolTwo(array);
+        System.out.println(duplicate);
     }
 }
