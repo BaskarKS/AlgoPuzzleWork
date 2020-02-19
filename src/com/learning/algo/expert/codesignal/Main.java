@@ -18,5 +18,7 @@ public class Main {
         int[] array = {1, 2, 3, 4, 4, 6, 7, 8};
         int duplicate = FirstDuplicateInteger.firstDuplicateSolTwo(array);
         System.out.println(duplicate);
+
+        System.out.println(SumOfTwo.sumOfTwo(null, null, 10));
     }
 }
