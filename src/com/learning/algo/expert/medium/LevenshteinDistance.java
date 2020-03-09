@@ -31,9 +31,9 @@ package medium;
 * */
 public class LevenshteinDistance {
     public static void main(String[] args) {
-        String str1 = "abd";
-        String str2 = "";
-        int minEdits = levenshteinDistance(str1, str2);
+        String str1 = "baskar";
+        String str2 = "jaasritha";
+        int minEdits = levenshteinDistanceMinSpace(str1, str2);
         System.out.println(minEdits);
     }
     public static int levenshteinDistance(String str1, String str2) {
@@ -61,6 +61,52 @@ public class LevenshteinDistance {
         }
         return minEdits[str1.length()][str2.length()];
     }
+
+    // O(NM) time complexity | space complexity is O(min(N,M))
+    public static int levenshteinDistanceMinSpace(String str1, String str2) {
+        if ((str1 == null || str1.isEmpty()) &&
+                str2 == null || str2.isEmpty())
+            return 0;
+        if (str1.equals(str2))
+            return 0;
+        String small = getBigString(false, str1, str2);
+        String big = getBigString(true, str1, str2);
+        int[] oddEdits = new int[small.length() + 1]; //each row length
+        int[] evenEdits = new int[small.length() + 1];
+        //we start iteration with odd value, we use even-array in beginning, initializing it
+        for (int idx = 0; idx <= small.length(); idx++) {
+            evenEdits[idx] = idx;
+        }
+
+        int[] currentEdits = null, prevEdits = null;
+        for (int row = 1; row <= big.length(); row++) {
+            if (row % 2 == 1) {
+                currentEdits = oddEdits;
+                prevEdits = evenEdits;
+            } else {
+                currentEdits = evenEdits;
+                prevEdits = oddEdits;
+            }
+            currentEdits[0] = row; // position of big string char in bigString
+            for (int col = 1; col <= small.length(); col++) {
+                if (big.charAt(row - 1) == small.charAt(col - 1)) {
+                    currentEdits[col] = prevEdits[col - 1];
+                } else {
+                    currentEdits[col] = 1 + min(currentEdits[col - 1], prevEdits[col],
+                                                        prevEdits[col - 1]);
+                }
+            }
+        }
+        //if the length of big string is even the loop finishes with evenEdits as current
+        //if the length of big string is odd the loop finishes with oddEdits as current
+        return (big.length() % 2 == 0) ? evenEdits[small.length()] : oddEdits[small.length()];
+    }
+
+    public static String getBigString(boolean needBigOrSmall, String str1, String str2) {
+        return needBigOrSmall ? (str1.length() >= str2.length()) ? str1 : str2 :
+                str1.length() >= str2.length() ? str2 : str1;
+    }
+
     public static int min(int pos1, int pos2, int pos3) {
         return (pos1 <= pos2) ?
                      ((pos1 <= pos3) ? pos1 : pos3) :
