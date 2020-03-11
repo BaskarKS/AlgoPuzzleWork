@@ -1,7 +1,8 @@
+package medium;
+
 import java.util.Arrays;
 
-public class MediumProblems {
-
+public class KadanesAlgorithm {
     // ------------------- Kadane Algorithm -----------------------------------------
 
     // my Own Worst Implementation, didn't work for some cases of inputs
@@ -9,14 +10,14 @@ public class MediumProblems {
     //int[] kadaneArray = {1,2,-4,3,5,-9,8,1,2};
     public static int kadanesAlgorithm(int[] array) {
         // Write your code here.
-       int result = 0;
-       int min = 0;
-       int max = array.length - 1;
-       int[] valueIdxs = new int[2];
-       getSubArrayIndexes(array, min, max, valueIdxs);
-       for (int index = valueIdxs[0]; index <= valueIdxs[1]; index++)
-           result += array[index];
-       return result;
+        int result = 0;
+        int min = 0;
+        int max = array.length - 1;
+        int[] valueIdxs = new int[2];
+        getSubArrayIndexes(array, min, max, valueIdxs);
+        for (int index = valueIdxs[0]; index <= valueIdxs[1]; index++)
+            result += array[index];
+        return result;
     }
     public static void getSubArrayIndexes(int[] array, int min, int max, int[] resultIdx) {
         if (min == max) {
@@ -33,8 +34,8 @@ public class MediumProblems {
         for (int right = mid + 1; right <= max; right++) {
             tmpArray[right] = tmpArray[right - 1] + tmpArray[right];
             if ((tmpArray[right] > midVal) && (tmpArray[right] >= rightMax)) {
-               rightMax = tmpArray[right];
-               newMax = right;
+                rightMax = tmpArray[right];
+                newMax = right;
             }
         }
         for (int left = mid - 1; left >= min; left--) {

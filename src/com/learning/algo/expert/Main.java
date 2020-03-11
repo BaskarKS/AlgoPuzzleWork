@@ -1,4 +1,5 @@
 import codesignal.RotateImage;
+import medium.KadanesAlgorithm;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -59,7 +60,7 @@ public class Main {
          //int[] kadaneArray = {-1,-2,-3,-4,-5,-6,-7,-8,-9,-10};
          //int[] kadaneArray = {-10,-2,-9,-4,-8,-6,-7,-1,-3,-5};
          int[] kadaneArray = {1,2,-4,3,5,-9,8,1,2};
-        int kadaneSum = MediumProblems.kadanesAlgorithmDynamicProg(kadaneArray);
+        int kadaneSum = KadanesAlgorithm.kadanesAlgorithmDynamicProg(kadaneArray);
         System.out.println("Kadane Sum : " + kadaneSum);
     }
 
