@@ -1,7 +1,17 @@
+package veryhard;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class AlgoExpertLRUCache {
+    public static void main(String[] args) {
+
+        int lruSize = 2;
+        Cache.LRUCache lru = new Cache.LRUCache(lruSize);
+        lru.insertKeyValuePair("a", 0);
+        lru.insertKeyValuePair("b", 1);
+
+    }
     static class LRUCache {
         Map<String, DoublyLinkedListNode> cache = new HashMap<>();
         int maxSize;

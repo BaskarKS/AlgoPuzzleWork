@@ -1,4 +1,11 @@
+package medium;
+
 public class LongestPalindromeSubString {
+    /*
+        function returns a longest palindrome substring
+        only one longest palindrome substring is present in given String
+
+    */
     public static boolean isPalindrome(String str) {
         if (str == null || str.isEmpty())
             return false;
