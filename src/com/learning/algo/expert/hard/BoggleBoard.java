@@ -1,10 +1,9 @@
 package hard;
 
-import javax.imageio.plugins.tiff.TIFFImageReadParam;
 import java.util.*;
 
-/*
-* given a two dimension array of unequal height and width containing
+/* Boggle-Board
+* Given a two dimension array of unequal height and width containing
 * letters, this matrix represents a boggle board. you are also
 * given a list of words. write a function that returns an array
 * of all words contained in the boggle board.
@@ -38,11 +37,7 @@ import java.util.*;
 * ["this", "is", "a", "simple", "boggle", "board", "NOTRE-PEATED"]
 * */
 public class BoggleBoard {
-    public BoggleBoard(String[] words) {
-        for (var word : words)
-            addWordToTrie(word);
-    }
-
+    /*
     class TrieNode {
         char value;
         boolean isEndOfWord;
@@ -118,13 +113,10 @@ public class BoggleBoard {
         for (var child : current.getChildrens().keySet())
             print(current.getChild(child));
     }
-
+    */
     public static void main(String[] args) {
         String[] words = new String[] {"this", "is", "not", "a", "simple", "boggle",
                 "board", "test", "REPEATED", "NOTRE-PEATED"};
-//        var trie = new BoggleBoard(words);
-//        trie.print();
-
         char[][] boggleBoard = new char[][] {
                 {'t','h','i','s','i','s','a'},
                 {'s','i','m','p','l','e','x'},
@@ -138,76 +130,81 @@ public class BoggleBoard {
         List<String> containedWords = boggleBoard(boggleBoard, words);
         System.out.println(containedWords);
     }
+
     public static List<String> boggleBoard(char[][]board, String[] words) {
-        List<String> containedWords = new ArrayList<>();
-        BoggleBoard trie = new BoggleBoard(words);
-        TrieNode node = trie.getRoot();
-        for (int rowIdx = 0; rowIdx < board.length; rowIdx++) {
-            for (int colIdx = 0; colIdx < board[rowIdx].length; colIdx++) {
-                char ch = board[rowIdx][colIdx];
-                if (!trie.containsLetter(node, ch)) {
-                    continue;
-                }
-                else {
-                    String word = "";
-                    word = getWordFromBoard(board, ch, node, rowIdx, colIdx, word);
-                    if (!word.isEmpty())
-                        containedWords.add(word);
-                }
+        Trie trie = new Trie();
+        boolean[][] visited = new boolean[board.length][board[0].length];
+        for (String word : words)
+            trie.addWord(word);
+        Set<String> foundStrings = new HashSet<>();
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board[0].length; col++) {
+                explore(row, col, board, trie, visited, foundStrings);
             }
         }
-        return containedWords;
+        List<String> result = new ArrayList<>();
+        result.addAll(foundStrings);
+        return result;
     }
-    public static String getWordFromBoard(char[][] board, char ch, TrieNode node,
-                                          int rowIdx, int colIdx, String word) {
-        TrieNode current = node;
-
-        if (current.isEndOfWord() || !current.hasChild(ch))
-            return word;
-
-        word += ch;
-        current = current.getChild(ch);
-        List<Neighbour> neighbours = getNeighbours(board, ch, rowIdx, colIdx);
-        for (Neighbour neighbour : neighbours) {
-            if (current.hasChild(neighbour.ch))
-                return getWordFromBoard(board, neighbour.ch, current,
-                        neighbour.row, neighbour.col, word);
-        }
-        return word;
-    }
-
-    public static List<Neighbour> getNeighbours(char[][] board, char ch, int rowNo, int colNo) {
-        List<Neighbour> neighbourList = new ArrayList<>();
+    public static List<int[]> getNeighbours(int row, int col, char[][] board) {
+        List<int[]> neighbours = new ArrayList<>();
         int maxRow = board.length - 1;
-        int maxCol = board[rowNo].length - 1;
-        boolean hasTop = (rowNo - 1) >= 0;
-        boolean hasTopLeft = ((rowNo - 1) >= 0) && ((colNo - 1) >= 0);
-        boolean hasTopRight = ((rowNo - 1) >= 0) && ((colNo + 1) <= maxCol);
-        boolean hasBottom = (rowNo + 1) <= maxRow;
-        boolean hasLeft = (colNo - 1) >= 0;
-        boolean hasRight = (colNo + 1) <= maxCol;
-        boolean hasBottomRight = ((rowNo + 1) <= maxRow) && ((colNo + 1) <= maxCol);
-        boolean hasBottomLeft = ((rowNo + 1) <= maxRow) && ((colNo - 1) >= 0);
-
-        if (hasTopLeft) neighbourList.add(new Neighbour(board[rowNo - 1][colNo - 1], rowNo - 1, colNo - 1));
-        if (hasTop) neighbourList.add(new Neighbour(board[rowNo - 1][colNo], rowNo - 1, colNo));
-        if (hasTopRight) neighbourList.add(new Neighbour(board[rowNo - 1][colNo + 1], rowNo - 1, colNo + 1));
-        if (hasRight) neighbourList.add(new Neighbour(board[rowNo][colNo + 1], rowNo, colNo + 1));
-        if (hasBottomRight) neighbourList.add(new Neighbour(board[rowNo + 1][colNo + 1], rowNo + 1, colNo + 1));
-        if (hasBottom) neighbourList.add(new Neighbour(board[rowNo + 1][colNo], rowNo + 1, colNo));
-        if (hasBottomLeft) neighbourList.add(new Neighbour(board[rowNo + 1][colNo - 1], rowNo + 1, colNo - 1));
-        if (hasLeft) neighbourList.add(new Neighbour(board[rowNo][colNo - 1], rowNo, colNo - 1));
-
-        return neighbourList;
+        int maxCol = board[0].length - 1;
+        if (row > 0 && col > 0)
+            neighbours.add(new int[] {row - 1, col - 1});
+        if (row > 0 && col < maxCol)
+            neighbours.add(new int[]{row - 1, col + 1});
+        if (row < maxRow && col > 0)
+            neighbours.add(new int[]{row + 1, col - 1});
+        if (row < maxRow && col < maxCol)
+            neighbours.add(new int[]{row + 1, col + 1});
+        if (row > 0)
+            neighbours.add(new int[]{row - 1, col});
+        if (col > 0)
+            neighbours.add(new int[]{row, col - 1});
+        if (col < maxCol)
+            neighbours.add(new int[]{row, col + 1});
+        if (row < maxRow)
+            neighbours.add(new int[]{row + 1, col});
+        return neighbours;
     }
-    static class Neighbour {
-        char ch;
-        int row;
-        int col;
-        public Neighbour(char ch, int row, int col) {
-            this.ch = ch;
-            this.row = row;
-            this.col = col;
+    public static void explore(int row, int col, char[][] board, Trie trie,
+                               boolean[][] visited, Set<String> foundStrings) {
+        if (visited[row][col])
+            return;
+        char letter = board[row][col];
+        if (!trie.childs.containsKey(letter))
+            return;
+        visited[row][col] = true;
+        Trie current = trie.childs.get(letter);
+        if (current.isEndOfWord)
+            foundStrings.add(current.word);
+        List<int[]> neighbours = getNeighbours(row, col, board);
+        for (int[] neighbour : neighbours)
+            explore(neighbour[0], neighbour[1], board, current, visited, foundStrings);
+        visited[row][col] = false;
+    }
+    static class Trie {
+        Map<Character, Trie> childs;
+        String word = "";
+        boolean isEndOfWord = false;
+        public Trie() {
+            childs = new HashMap<>();
+        }
+        public void setEndOfWord(boolean isEndWord, String word) {
+            this.word = word;
+            this.isEndOfWord = isEndWord;
+        }
+        public void addWord(String word) {
+            if (word == null || word.isEmpty())
+                return;
+            Trie current = this;
+            for (char ch : word.toCharArray()) {
+                if(!current.childs.containsKey(ch))
+                    current.childs.put(ch, new Trie());
+                current = current.childs.get(ch);
+            }
+            current.setEndOfWord(true, word);
         }
     }
 }
