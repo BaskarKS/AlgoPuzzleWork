@@ -10,9 +10,9 @@ Op: 4 // 3 --> (4 or 2) --> (2 or 3) --> 7 --> 3
  */
 public class MinimumNumberOfJumps {
     public static void main(String[] args) {
-        int[] input = new int[] {3};
+        int[] input = new int[] {3, 4, 2, 1, 2, 3, 7, 1, 1, 1, 3};
 
-        int jumps = minNumberOfJumps(input);
+        int jumps = minNumberOfJumpsBetterTime(input);
         System.out.println(jumps);
     }
     public static int minNumberOfJumps(int[] array) {
@@ -40,5 +40,36 @@ public class MinimumNumberOfJumps {
             jumps += 1;
         }
         return jumps;
+    }
+    // Time Complexity : O(N^2), Space Complexity : O(N)
+    public static int minNumberOfJumpsDynamic(int[] array) {
+        int[] jumps = new int[array.length];
+        jumps[0] = 0;
+        for (int idx = 1; idx < array.length; idx++)
+            jumps[idx] = Integer.MAX_VALUE;
+        for (int outer = 1; outer < array.length; outer++) {
+            for (int inner = 0; inner < outer; inner++) {
+                if (array[inner] >= (outer - inner))
+                    jumps[outer] = Math.min(jumps[inner] + 1, jumps[outer]);
+            }
+        }
+        return jumps[jumps.length - 1];
+    }
+    // Time Complexity : O(N), Space Complexity : O(1)
+    public static int minNumberOfJumpsBetterTime(int[] array) {
+        if (array.length == 1)
+            return 0;
+        int steps = array[0];
+        int maxReach = array[0];
+        int jumps = 0;
+        for (int idx = 1; idx < array.length - 1; idx++) {
+            maxReach = Math.max(maxReach, array[idx] + idx);
+            steps -= 1;
+            if (steps == 0) {
+                steps = maxReach - idx;
+                jumps += 1;
+            }
+        }
+        return jumps + 1;
     }
 }
