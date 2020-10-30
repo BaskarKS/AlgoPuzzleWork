@@ -44,7 +44,8 @@ public class NodeDepths {
         node3.right = node7;
         node4.left = node8;
         node4.right = node9;
-        System.out.println(nodeDepths(node1));
+        //System.out.println(nodeDepths(node1));
+        System.out.println(nodeDepthsIterative(node1));
 
     }
     public static int nodeDepths(BinaryTree root) {
@@ -66,7 +67,6 @@ public class NodeDepths {
         return root.left == null && root.right == null;
     }
     public static int nodeDepthsIterative(BinaryTree root) {
-        // Write your code here.
         if (root == null)
             return 0;
         Stack<StackItem> treeNodes = new Stack<>();
@@ -74,14 +74,20 @@ public class NodeDepths {
         int totalDepth = 0;
         while (!treeNodes.empty()) {
             StackItem currentNode = treeNodes.pop();
-            if (currentNode.node == null)
-                continue;
+//            if (currentNode.node == null)
+//                continue;
             totalDepth += currentNode.depth;
-            treeNodes.push(new StackItem(currentNode.node.left, currentNode.depth + 1));
-            treeNodes.push(new StackItem(currentNode.node.right, currentNode.depth + 1));
+
+            if (currentNode.node.left != null)
+                treeNodes.push(new StackItem(currentNode.node.left,
+                currentNode.depth + 1));
+            if (currentNode.node.right != null)
+                treeNodes.push(new StackItem(currentNode.node.right,
+                    currentNode.depth + 1));
         }
         return totalDepth;
     }
+
     static class StackItem {
         private BinaryTree node;
         int depth;
@@ -90,6 +96,7 @@ public class NodeDepths {
             this.depth = depth;
         }
     }
+
     static class BinaryTree {
         int value;
         BinaryTree left;
