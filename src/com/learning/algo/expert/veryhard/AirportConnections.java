@@ -183,7 +183,7 @@ public class AirportConnections {
         List.of("EYW", "LHR"),
         List.of("LHR", "SFO"),
         List.of("SFO", "SAN"),
-        List.of("SFO", "DSM"),
+        List.of("SFO", "DSM"),  
         List.of("SAN", "EYW"));
         String startingAirport = "LGA";
         int result = airportConnections(airports, routes, startingAirport);
